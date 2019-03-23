@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Management;
+using System.Windows.Forms;
 
 namespace Uninstaller
 {
@@ -16,8 +17,17 @@ namespace Uninstaller
             {
                 DirectoryInfo directory = new DirectoryInfo(installLocation);
             }
-            CleaningRegistry(program.RegistryAddress);
-            CleaningFolders(installLocation);
+
+            DialogResult result = MessageBox.Show("Found leftovers. Wanna cleanup?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                CleaningRegistry(program.RegistryAddress);
+                CleaningFolders(installLocation);
+            }
+            else if (result == DialogResult.No)
+            {
+                //code for No
+            }
         }
 
         private static void CleaningFolders(string installLocation)
